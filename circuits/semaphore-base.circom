@@ -72,8 +72,8 @@ template Semaphore(n_levels) {
     signal private input identity_path_index[n_levels];
     signal private input path_elements[n_levels][LEAVES_PER_PATH_LEVEL];
 
-    signal output nullifierHash;
     signal output root;
+    signal output nullifierHash;
 
     component verifyPkOnCurve = VerifyPkOnCurve();
     verifyPkOnCurve.identity_pk[0] <== identity_pk[0];

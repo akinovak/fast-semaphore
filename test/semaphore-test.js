@@ -119,6 +119,9 @@ describe("Semaphore", function () {
     //   solidityProof.c,
     //   solidityProof.inputs
     // );
+
+    // console.log(solidityProof.inputs);
+    // console.log(root, nullifiersHash, signalHash, externalNullifier)
     
     // console.log(res);
   
