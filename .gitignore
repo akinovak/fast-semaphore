@@ -1,3 +1,8 @@
 node_modules
 build
 zkeyFiles
+.env
+
+#Hardhat files
+cache
+artifacts

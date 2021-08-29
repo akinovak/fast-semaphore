@@ -20,9 +20,9 @@ npx snarkjs zkey contribute semaphore_0000.zkey semaphore_final.zkey
 
 npx snarkjs zkey export verificationkey semaphore_final.zkey verification_key.json
 
-# snarkjs zkey export solidityverifier semaphore_final.zkey verifier.sol
+snarkjs zkey export solidityverifier semaphore_final.zkey verifier.sol
 
-# mv verifier.sol ../../contracts/contracts/Verifier.sol
+mv verifier.sol ../contracts/Verifier.sol
 
 cp verification_key.json ../zkeyFiles/verification_key.json
 cp semaphore.wasm ../zkeyFiles/semaphore.wasm

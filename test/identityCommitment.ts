@@ -4,7 +4,7 @@ import { genIdentity, Identity } from 'semaphore-identity-lib';
 import { genExternalNullifier, genSignalHash, createTree, genIdentityCommitment_poseidon, genNullifierHash_poseidon } from 'semaphore-lib';
 import * as ethers from 'ethers';
 
-const ZERO_VALUE = BigInt(ethers.utils.solidityKeccak256(['bytes'], [ethers.utils.toUtf8Bytes('Semaphore')]))
+const ZERO_VALUE = BigInt(ethers.utils.solidityKeccak256(['bytes'], [ethers.utils.toUtf8Bytes('Semaphore')]));
 
 async function run() {
     const n_levels = 20;
