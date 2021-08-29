@@ -1,0 +1,30 @@
+{
+  "name": "fast-semaphore",
+  "version": "1.0.0",
+  "description": "This is the original version of semaphore where Poseidon hash is used for all proofs and additional security with signature proof is removed",
+  "scripts": {
+    "test": "ts-node test/identityCommitment.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akinovak/fast-semaphore.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akinovak/fast-semaphore/issues"
+  },
+  "homepage": "https://github.com/akinovak/fast-semaphore#readme",
+  "dependencies": {
+    "circomlib": "^0.5.3"
+  },
+  "devDependencies": {
+    "ethers": "^5.4.6",
+    "semaphore-identity-lib": "git+https://github.com/akinovak/semaphore-identity-lib.git",
+    "semaphore-lib": "git+https://github.com/akinovak/semaphore-lib.git",
+    "snarkjs": "^0.4.6",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  }
+}
