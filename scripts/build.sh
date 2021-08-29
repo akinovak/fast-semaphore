@@ -7,9 +7,6 @@ mkdir -p ../zkeyFiles
 
 npx circom ../circuits/semaphore.circom --r1cs --wasm --sym
 
-# wget https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_10.ptau
-# wget https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_16.ptau
-
 if [ -f ./powersOfTau28_hez_final_16.ptau ]; then
     echo "powersOfTau28_hez_final_16.ptau already exists. Skipping."
 else
