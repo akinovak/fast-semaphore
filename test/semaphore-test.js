@@ -9,7 +9,7 @@ const { genExternalNullifier, genIdentity, genSignalHash, genIdentityCommitment,
 const { expect } = require('chai');
 
 describe("Semaphore", function () {
-    it("Should return the new semaphore", async function () {
+    it.skip("Should return the new semaphore", async function () {
       const PoseidonT3 = await ethers.getContractFactory(
           poseidonGenContract.generateABI(2),
           poseidonGenContract.createCode(2)
