@@ -32,7 +32,8 @@ async function run() {
     }
     , "./zkeyFiles/semaphore.wasm", "./zkeyFiles/semaphore_final.zkey");
 
-    const pubSignals = [nullifierHash, tree.root, signalHash, externalNullifier];
+    const pubSignals = [tree.root, nullifierHash, signalHash, externalNullifier];
+
     const vKey = JSON.parse(fs.readFileSync("./zkeyFiles/verification_key.json", 'utf-8'));
     const res = await snarkjs.groth16.verify(vKey, pubSignals, proof);
 
