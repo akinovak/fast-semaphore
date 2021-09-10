@@ -20,6 +20,7 @@ const {
   packToSolidityProof,
   genNullifierHash_poseidon,
   genIdentityCommitment_poseidon,
+  genIdentityCommitment_fastSemaphore
 } = require("semaphore-lib");
 const { expect } = require("chai");
 
@@ -39,15 +40,6 @@ describe("FastSemaphore", function () {
     const poseidonT6 = await PoseidonT6.deploy();
     await poseidonT6.deployed();
 
-    //   const Hasher = await ethers.getContractFactory("Hasher", {
-    //       libraries: {
-    //           PoseidonT3: poseidonT3.address,
-    //           PoseidonT6: poseidonT6.address,
-    //       },
-    //     });
-    //   const hasher = await Hasher.deploy();
-    //   await hasher.deployed();
-
     const externalNullifier = genExternalNullifier("voting-1");
 
     const FastSemaphore = await ethers.getContractFactory("FastSemaphore", {
@@ -65,7 +57,7 @@ describe("FastSemaphore", function () {
 
     for (let i = 0; i < leafIndex; i++) {
       const tmpIdentity = genIdentity();
-      const tmpCommitment = genIdentityCommitment(tmpIdentity);
+      const tmpCommitment = genIdentityCommitment_fastSemaphore(tmpIdentity);
       idCommitments.push(tmpCommitment);
     }
 
@@ -85,7 +77,7 @@ describe("FastSemaphore", function () {
       identity.identityNullifier,
       20
     );
-    const identityCommitment = genIdentityCommitment_poseidon(identity);
+    const identityCommitment = genIdentityCommitment_fastSemaphore(identity);
 
     await fastSemaphore.insertIdentity(identityCommitment);
 
