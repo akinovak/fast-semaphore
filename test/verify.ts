@@ -1,7 +1,7 @@
 const snarkjs = require("snarkjs");
 import * as fs from 'fs';
 import { genIdentity, Identity } from 'semaphore-identity-lib';
-import { genExternalNullifier, genSignalHash, createTree, genIdentityCommitment_poseidon, genNullifierHash_poseidon } from 'semaphore-lib';
+import { genExternalNullifier, genSignalHash, createTree, genIdentityCommitment_fastSemaphore, genNullifierHash_poseidon } from 'semaphore-lib';
 import * as ethers from 'ethers';
 
 const ZERO_VALUE = BigInt(ethers.utils.solidityKeccak256(['bytes'], [ethers.utils.toUtf8Bytes('Semaphore')]));
@@ -11,7 +11,7 @@ async function run() {
     const externalNullifier = genExternalNullifier('fast-sempahore-demo');
     const signalHash = genSignalHash('hello fast semaphore');
     const identity: Identity = genIdentity();
-    const idCom = genIdentityCommitment_poseidon(identity);
+    const idCom = genIdentityCommitment_fastSemaphore(identity);
 
     
     const tree = createTree(20, ZERO_VALUE, 5);
@@ -20,7 +20,7 @@ async function run() {
     // console.log(tree.zeros.length)
 
     const nullifierHash = genNullifierHash_poseidon(externalNullifier, identity.identityNullifier, n_levels);
-    const { proof } = await snarkjs.groth16.fullProve(
+    const { proof, publicSignals } = await snarkjs.groth16.fullProve(
     {
         signal_hash: signalHash,
         external_nullifier: externalNullifier,
