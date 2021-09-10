@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This is the original version of semaphore where Poseidon hash is used for all proofs and additional security with signature proof is removed",
   "scripts": {
-    "test": "ts-node test/identityCommitment.ts"
+    "test": "ts-node test/verify.ts"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.4.6",
     "hardhat": "^2.6.1",
+    "http-server": "^13.0.1",
     "semaphore-identity-lib": "git+https://github.com/akinovak/semaphore-identity-lib.git",
     "semaphore-lib": "git+https://github.com/akinovak/semaphore-lib.git",
     "snarkjs": "^0.4.6",
