@@ -6,3 +6,6 @@ zkeyFiles
 #Hardhat files
 cache
 artifacts
+
+#Contracts
+contracts/Verifier.sol

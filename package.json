@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This is the original version of semaphore where Poseidon hash is used for all proofs and additional security with signature proof is removed",
   "scripts": {
-    "test": "ts-node test/identityCommitment.ts"
+    "test": "ts-node test/verify.ts"
   },
   "repository": {
     "type": "git",
