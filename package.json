@@ -28,8 +28,7 @@
     "ethers": "^5.4.6",
     "hardhat": "^2.6.1",
     "http-server": "^13.0.1",
-    "semaphore-identity-lib": "git+https://github.com/akinovak/semaphore-identity-lib.git",
-    "semaphore-lib": "git+https://github.com/akinovak/semaphore-lib.git",
+    "semaphore-lib": "git+https://github.com/akinovak/semaphore-lib.git#dev",
     "snarkjs": "^0.4.6",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"

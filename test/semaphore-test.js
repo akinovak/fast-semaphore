@@ -4,8 +4,9 @@ const fs = require('fs');
 const Web3 = require('web3');
 
 const ZERO_VALUE = BigInt(ethers.utils.solidityKeccak256(['bytes'], [ethers.utils.toUtf8Bytes('Semaphore')]));
+const SNARK_FIELD_SIZE = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617");
 
-const { genExternalNullifier, genIdentity, genSignalHash, genIdentityCommitment, genProof_fastSemaphore, packToSolidityProof, genNullifierHash_poseidon, genIdentityCommitment_poseidon } = require('semaphore-lib');
+const { FastSemaphore } = require('semaphore-lib');
 const { expect } = require('chai');
 
 describe("Semaphore", function () {
@@ -34,7 +35,7 @@ describe("Semaphore", function () {
       const hasher = await Hasher.deploy();
       await hasher.deployed();
 
-      const externalNullifier = genExternalNullifier("voting-1");
+      const externalNullifier = FastSemaphore.genExternalNullifier("voting-1");
 
       const Semaphore = await ethers.getContractFactory("Semaphore", {
           libraries: {
@@ -45,13 +46,14 @@ describe("Semaphore", function () {
       const semaphore = await Semaphore.deploy(20, externalNullifier);
       await semaphore.deployed();
 
+      FastSemaphore.setHasher('poseidon');
       const leafIndex = 4;
 
       const idCommitments = [];
 
       for (let i=0; i<leafIndex;i++) {
-        const tmpIdentity = genIdentity();
-        const tmpCommitment = genIdentityCommitment(tmpIdentity);
+        const tmpIdentity = FastSemaphore.genIdentity();
+        const tmpCommitment = FastSemaphore.genIdentityCommitment(tmpIdentity);
         idCommitments.push(tmpCommitment);
       }
 
@@ -63,12 +65,12 @@ describe("Semaphore", function () {
       await Promise.all(promises);
 
 
-      const identity = genIdentity();
+      const identity = FastSemaphore.genIdentity();
       let signal = 'yes';
       signal = Web3.utils.utf8ToHex(signal);
-      const signalHash = genSignalHash(signal);
-      const nullifiersHash = genNullifierHash_poseidon(externalNullifier, identity.identityNullifier, 20);
-      const identityCommitment = genIdentityCommitment_poseidon(identity);
+      const signalHash = FastSemaphore.genSignalHash(signal);
+      const nullifiersHash = FastSemaphore.genNullifierHash(externalNullifier, identity.identityNullifier, 20);
+      const identityCommitment = FastSemaphore.genIdentityCommitment(identity);
 
       await semaphore.insertIdentity(identityCommitment);
 
@@ -77,11 +79,23 @@ describe("Semaphore", function () {
 
       idCommitments.push(identityCommitment);
 
-      const witnessData = await genProof_fastSemaphore(identity, signalHash, 
-        idCommitments, externalNullifier, 20, ZERO_VALUE, 5, wasmFilePath, finalZkeyPath);
+      const witnessData = await FastSemaphore.genProofFromIdentityCommitments(
+        identity, externalNullifier, signal, wasmFilePath, finalZkeyPath, 
+        idCommitments, 20, ZERO_VALUE, 5
+      );
+  
 
       const { fullProof, root } = witnessData;
-      const solidityProof = packToSolidityProof(fullProof);
+
+      // console.log(fullProof.publicSignals)
+
+      // const inputs = fullProof.publicSignals.map((x) => {
+      //   x = BigInt(x);
+      //   console.log(x);
+      //   return (x % SNARK_FIELD_SIZE).toString()
+      // })
+
+      const solidityProof = FastSemaphore.packToSolidityProof(fullProof);
 
 
       const packedProof = await semaphore.packProof(
