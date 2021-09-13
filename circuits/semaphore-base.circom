@@ -38,7 +38,6 @@ template Semaphore(n_levels) {
     signal input signal_hash;
     signal input external_nullifier;
 
-    signal private input identity_pk[2];
     signal private input identity_nullifier;
     signal private input identity_trapdoor;
     signal private input identity_path_index[n_levels];

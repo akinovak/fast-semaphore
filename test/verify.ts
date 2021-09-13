@@ -26,7 +26,6 @@ async function run() {
         external_nullifier: externalNullifier,
         identity_path_index: merkleeProof.indices,
         path_elements: merkleeProof.pathElements,
-        identity_pk: identity.keypair.pubKey,
         identity_nullifier: identity.identityNullifier,
         identity_trapdoor: identity.identityTrapdoor
     }
