@@ -1,6 +1,7 @@
 include "../node_modules/circomlib/circuits/poseidon.circom";
 include "../node_modules/circomlib/circuits/babyjub.circom";
-include "./tree.circom";
+include "./incrementalMerkleTree.circom";
+include "./quinTree.circom";
 
 
 template CalculateIdentityCommitment() {
@@ -32,7 +33,7 @@ template CalculateNullifierHash() {
 // n_levels must be < 32
 template Semaphore(n_levels) {
 
-    var LEAVES_PER_NODE = 5;
+    var LEAVES_PER_NODE = 2;
     var LEAVES_PER_PATH_LEVEL = LEAVES_PER_NODE - 1;
 
     signal input signal_hash;
@@ -57,7 +58,7 @@ template Semaphore(n_levels) {
 
     var i;
     var j;
-    component inclusionProof = QuinTreeInclusionProof(n_levels);
+    component inclusionProof = MerkleTreeInclusionProof(n_levels);
     inclusionProof.leaf <== identity_commitment.out;
 
     for (i = 0; i < n_levels; i++) {
