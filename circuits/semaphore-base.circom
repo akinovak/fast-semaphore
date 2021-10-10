@@ -3,7 +3,7 @@ include "../node_modules/circomlib/circuits/babyjub.circom";
 include "./tree.circom";
 
 
-template CalculateIdentityCommitment() {
+template CalculateSecret() {
     signal input identity_nullifier;
     signal input identity_trapdoor;
 
@@ -12,6 +12,16 @@ template CalculateIdentityCommitment() {
     component hasher = Poseidon(2);
     hasher.inputs[0] <== identity_nullifier;
     hasher.inputs[1] <== identity_trapdoor;
+    out <== hasher.out;
+}
+
+template CalculateIdentityCommitment() {
+    signal input secret_hash;
+
+    signal output out;
+
+    component hasher = Poseidon(1);
+    hasher.inputs[0] <== secret_hash;
     out <== hasher.out;
 }
 
@@ -46,9 +56,14 @@ template Semaphore(n_levels) {
     signal output root;
     signal output nullifierHash;
 
+    component secret = CalculateSecret();
+    secret.identity_nullifier <== identity_nullifier;
+    secret.identity_trapdoor <== identity_trapdoor;
+
+    signal secret_hash <-- secret.out;
+
     component identity_commitment = CalculateIdentityCommitment();
-    identity_commitment.identity_nullifier <== identity_nullifier;
-    identity_commitment.identity_trapdoor <== identity_trapdoor;
+    identity_commitment.secret_hash <== secret_hash;
 
     component calculateNullifierHash = CalculateNullifierHash();
     calculateNullifierHash.external_nullifier <== external_nullifier;
