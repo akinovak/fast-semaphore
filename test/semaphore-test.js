@@ -6,7 +6,7 @@ const Web3 = require('web3');
 const ZERO_VALUE = BigInt(ethers.utils.solidityKeccak256(['bytes'], [ethers.utils.toUtf8Bytes('Semaphore')]));
 const SNARK_FIELD_SIZE = BigInt("21888242871839275222246405745257275088548364400416034343698204186575808495617");
 
-const { FastSemaphore } = require('semaphore-lib');
+const { FastSemaphore } = require('libsemaphore');
 const { expect } = require('chai');
 
 describe("Semaphore", function () {

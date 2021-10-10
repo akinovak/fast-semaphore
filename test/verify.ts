@@ -1,6 +1,6 @@
 const snarkjs = require("snarkjs");
 import * as fs from 'fs';
-import { FastSemaphore, Identity, IWitnessData } from 'semaphore-lib';
+import { FastSemaphore, Identity, IWitnessData } from 'libsemaphore';
 import * as ethers from 'ethers';
 
 const ZERO_VALUE = BigInt(ethers.utils.solidityKeccak256(['bytes'], [ethers.utils.toUtf8Bytes('Semaphore')]));
