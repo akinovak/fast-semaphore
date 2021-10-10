@@ -10,7 +10,7 @@ const { FastSemaphore } = require('semaphore-lib');
 const { expect } = require('chai');
 
 describe("Semaphore", function () {
-    it.skip("Should return the new semaphore", async function () {
+    it("Should broadcast signal", async function () {
       const PoseidonT3 = await ethers.getContractFactory(
           poseidonGenContract.generateABI(2),
           poseidonGenContract.createCode(2)
@@ -86,15 +86,6 @@ describe("Semaphore", function () {
   
 
       const { fullProof, root } = witnessData;
-
-      // console.log(fullProof.publicSignals)
-
-      // const inputs = fullProof.publicSignals.map((x) => {
-      //   x = BigInt(x);
-      //   console.log(x);
-      //   return (x % SNARK_FIELD_SIZE).toString()
-      // })
-
       const solidityProof = FastSemaphore.packToSolidityProof(fullProof);
 
 
@@ -104,6 +95,16 @@ describe("Semaphore", function () {
         solidityProof.c,
       );
 
+      const preBroadcastCheck = await semaphore.preBroadcastCheck(
+          ethers.utils.hexlify(ethers.utils.toUtf8Bytes(signal)),
+          packedProof,
+          root,
+          nullifiersHash,
+          signalHash,
+          externalNullifier
+      )
+
+      expect(preBroadcastCheck).to.be.true;
 
       const res = await semaphore.broadcastSignal(
             ethers.utils.hexlify(ethers.utils.toUtf8Bytes(signal)),
@@ -115,29 +116,12 @@ describe("Semaphore", function () {
 
       expect(res.hash).to.be.an('string');
 
-      // console.log(res);
-    // const res = await semaphore.preBroadcastCheck(
-    //     ethers.utils.hexlify(ethers.utils.toUtf8Bytes(signal)),
-    //     packedProof,
-    //     tree.root,
-    //     nullifiersHash,
-    //     signalHash,
-    //     externalNullifier
-    // )
-
-    // console.log(res);
-
-    // const res = await semaphore.verifyProof(
+    // const verificationRes = await semaphore.verifyProof(
     //   solidityProof.a,
     //   solidityProof.b,
     //   solidityProof.c,
     //   solidityProof.inputs
     // );
-
-    // console.log(solidityProof.inputs);
-    // console.log(root, nullifiersHash, signalHash, externalNullifier)
-    
-    // console.log(res);
   
     });
   });
